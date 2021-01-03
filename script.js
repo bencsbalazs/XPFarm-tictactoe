@@ -16,7 +16,7 @@ const getFields = () => {
 // TimeOut between turns.
 function autoPlayTheGame() {
     player = (player == "X") ? "O" : "X"
-    setTimeout(() => {
+    var loop = setTimeout(() => {
         const step = checkWinner(getFields(), player)
         document.getElementById("result").innerHTML = step.message
         canContinue = step.canContinue
@@ -28,28 +28,30 @@ function autoPlayTheGame() {
         }
         i++;
     }, 2000)
+    if (canContinue == false){clearTimeout(loop)}
 }
 
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
-async function load() { // We need to wrap the loop into an async function for this to work
+async function load() {
     for (var i = 0; i < 10; i++) {
-        player = (player == "X") ? "O" : "X"
         const step = checkWinner(getFields(), player)
         canContinue = step.canContinue
         if (canContinue == true) {
             random = Math.floor((chances.length) * Math.random())
             $('.field').eq(chances[random]).html(player)
             chances.splice(random, 1)
+            player = (player == "X") ? "O" : "X"
         } else {
             document.getElementById("result").innerHTML = step.message
         }
-        await timer(2000); // then the created Promise can be awaited
+        
+        await timer(2000);
     }
 }
 
 // Start the game when the page is loaded.
 $(document).ready(() => {
-    load();
-    //    autoPlayTheGame()
+    //load();
+    autoPlayTheGame()
 })

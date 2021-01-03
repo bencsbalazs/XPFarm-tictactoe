@@ -6,6 +6,7 @@ export let checkWinner = (currentFields, player) => {
         "message": "Deal.",
         "canContinue": true
     }
+    player = (player == "X") ? "O" : "X"
     nums.forEach((val) => {
         if (currentFields[val] != "" && currentFields[val + 1] != "" && currentFields[val + 2] != "") {
             if ((currentFields[val].valueOf() == currentFields[val + 1].valueOf()) && (currentFields[val].valueOf() == currentFields[val + 2].valueOf())) {
